@@ -7,7 +7,6 @@ import com.picpay.desafio.android.databinding.ListItemUserBinding
 import com.picpay.desafio.android.model.User
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.list_item_user.view.*
 
 class UserListBindingHolder(
     private val binding: ListItemUserBinding

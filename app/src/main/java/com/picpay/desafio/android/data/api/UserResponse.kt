@@ -3,7 +3,7 @@ package com.picpay.desafio.android.data.api
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.picpay.desafio.android.model.User
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UserResponse(
