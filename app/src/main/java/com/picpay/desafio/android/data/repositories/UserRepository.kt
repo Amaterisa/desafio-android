@@ -1,14 +1,12 @@
-package com.picpay.desafio.android.repositories
+package com.picpay.desafio.android.data.repositories
 
-import com.picpay.desafio.android.data.source.local.UserDao
-import com.picpay.desafio.android.data.source.local.toDomain
-import com.picpay.desafio.android.data.source.local.toEntity
-import com.picpay.desafio.android.model.User
-import com.picpay.desafio.android.network.Result
-import com.picpay.desafio.android.data.api.UserApiService
-import com.picpay.desafio.android.data.api.UserResponse
-import com.picpay.desafio.android.data.api.toDomain
-import com.picpay.desafio.android.model.UserListState
+import com.picpay.desafio.android.data.local.UserDao
+import com.picpay.desafio.android.data.mappers.UserMapper
+import com.picpay.desafio.android.data.remote.UserApiService
+import com.picpay.desafio.android.data.remote.UserResponse
+import com.picpay.desafio.android.domain.common.Result
+import com.picpay.desafio.android.domain.model.User
+import com.picpay.desafio.android.domain.model.UserListState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
@@ -16,21 +14,22 @@ import javax.inject.Inject
 
 class UserRepository @Inject constructor(
     private val userApiService: UserApiService,
-    private val userDao: UserDao
+    private val userDao: UserDao,
+    private val userMapper: UserMapper
 ) {
     fun getUsers() = flow {
-        emit(UserListState(userDao.getAll().toDomain()))
+        emit(UserListState(userMapper.toUserFromEntity(userDao.getAll())))
         val result = getUsersRemote()
         if (result is Result.Success) {
-            insertUsers(result.data.toDomain())
-            emit(UserListState(userDao.getAll().toDomain(), isLoading = false))
+            insertUsers(userMapper.toUserFromResponse(result.data))
+            emit(UserListState(userMapper.toUserFromEntity(userDao.getAll()), isLoading = false))
         } else if (result is Result.Error) {
             emit(UserListState(error = result.exception, isLoading = false))
         }
     }
 
     private suspend fun insertUsers(users: List<User>) {
-        userDao.insertAll(users.toEntity())
+        userDao.insertAll(userMapper.toEntityFromUser(users))
     }
 
     private suspend fun getUsersRemote(): Result<List<UserResponse>> =

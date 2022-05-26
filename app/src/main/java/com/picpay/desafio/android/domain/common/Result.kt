@@ -1,4 +1,4 @@
-package com.picpay.desafio.android.network
+package com.picpay.desafio.android.domain.common
 
 sealed class Result<out R> {
 

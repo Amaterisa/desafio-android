@@ -1,7 +1,6 @@
-package com.picpay.desafio.android.data.source.local
+package com.picpay.desafio.android.data.local
 
 import androidx.room.Database
-import androidx.room.Entity
 import androidx.room.RoomDatabase
 
 @Database(entities = [UserEntity::class], version = 1)
