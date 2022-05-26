@@ -5,7 +5,10 @@ import com.picpay.desafio.android.data.source.local.toDomain
 import com.picpay.desafio.android.data.source.local.toEntity
 import com.picpay.desafio.android.model.User
 import com.picpay.desafio.android.network.Result
-import com.picpay.desafio.android.network.UserApiService
+import com.picpay.desafio.android.data.api.UserApiService
+import com.picpay.desafio.android.data.api.UserResponse
+import com.picpay.desafio.android.data.api.toDomain
+import com.picpay.desafio.android.model.UserListState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
@@ -16,24 +19,21 @@ class UserRepository @Inject constructor(
     private val userDao: UserDao
 ) {
     fun getUsers() = flow {
-        emit(userDao.getAll().toDomain())
+        emit(UserListState(userDao.getAll().toDomain()))
         val result = getUsersRemote()
         if (result is Result.Success) {
-            deleteUsers()
-            insertUsers(result.data)
-            emit(userDao.getAll().toDomain())
+            insertUsers(result.data.toDomain())
+            emit(UserListState(userDao.getAll().toDomain(), isLoading = false))
+        } else if (result is Result.Error) {
+            emit(UserListState(error = result.exception, isLoading = false))
         }
-    }
-
-    private suspend fun deleteUsers() {
-        userDao.deleteAll()
     }
 
     private suspend fun insertUsers(users: List<User>) {
         userDao.insertAll(users.toEntity())
     }
 
-    private suspend fun getUsersRemote(): Result<List<User>> =
+    private suspend fun getUsersRemote(): Result<List<UserResponse>> =
         withContext(Dispatchers.IO) {
             try {
                 val response = userApiService.getUsers()

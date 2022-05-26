@@ -1,16 +1,10 @@
 package com.picpay.desafio.android.di
 
-import android.content.Context
-import androidx.room.Room
 import com.google.gson.GsonBuilder
-import com.picpay.desafio.android.data.source.local.UserDao
-import com.picpay.desafio.android.data.source.local.UserDatabase
-import com.picpay.desafio.android.network.UserApiService
-import com.picpay.desafio.android.view.adapter.UserListAdapter
+import com.picpay.desafio.android.data.api.UserApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -19,7 +13,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object NetworkModule {
     @Provides
     fun provideBaseUrl() = "https://609a908e0f5a13001721b74e.mockapi.io/picpay/api/"
 
@@ -46,8 +40,4 @@ object AppModule {
     fun provideUserApiService(retrofit: Retrofit): UserApiService {
         return retrofit.create(UserApiService::class.java)
     }
-
-    @Provides
-    @Singleton
-    fun provideAdapter(): UserListAdapter = UserListAdapter()
 }

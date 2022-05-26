@@ -9,11 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.picpay.desafio.android.R
 import com.picpay.desafio.android.databinding.ActivityMainBinding
+import com.picpay.desafio.android.utils.ViewExtensions.toVisibility
 import com.picpay.desafio.android.view.adapter.UserListAdapter
 import com.picpay.desafio.android.viewmodel.UserRequestStatus
 import com.picpay.desafio.android.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -21,9 +21,7 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "MainActivity"
     }
     private val userViewModel: UserViewModel by viewModels()
-    @Inject
-    lateinit var userAdapter: UserListAdapter
-
+    private val userAdapter: UserListAdapter by lazy { UserListAdapter() }
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,32 +43,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setObservers() {
-        userViewModel.userResult.observe(this) { userList ->
-            userAdapter.updateUsers(userList)
-        }
-
-        userViewModel.requestStatus.observe(this) { status ->
-            when (status) {
-                UserRequestStatus.SUCCESS -> binding.progressBar.visibility = View.GONE
-                UserRequestStatus.ERROR -> showErrorScreen()
-                UserRequestStatus.LOADING -> binding.progressBar.visibility = View.VISIBLE
-                else -> {
-                    Log.i(TAG, "User request status is null!")
-                    showErrorScreen()
-                }
-            }
+        userViewModel.userResult.observe(this) { userListState ->
+            userListState.users?.let { userAdapter.updateUsers(it) }
+            binding.progressBar.visibility = userListState.isLoading.toVisibility()
+            userListState.error?.let { showErrorToast() }
         }
     }
 
-    private fun showErrorScreen() {
+    private fun showErrorToast() {
         val message = getString(R.string.error)
-        binding.progressBar.visibility = View.GONE
-        binding.recyclerView.visibility = View.GONE
-        showToast(message)
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT)
-            .show()
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
