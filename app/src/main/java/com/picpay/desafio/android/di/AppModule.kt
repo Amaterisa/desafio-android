@@ -1,11 +1,16 @@
 package com.picpay.desafio.android.di
 
+import android.content.Context
+import androidx.room.Room
 import com.google.gson.GsonBuilder
+import com.picpay.desafio.android.data.source.local.UserDao
+import com.picpay.desafio.android.data.source.local.UserDatabase
 import com.picpay.desafio.android.network.UserApiService
 import com.picpay.desafio.android.view.adapter.UserListAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -28,7 +33,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient, baseUrl:String): Retrofit {
+    fun provideRetrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)
