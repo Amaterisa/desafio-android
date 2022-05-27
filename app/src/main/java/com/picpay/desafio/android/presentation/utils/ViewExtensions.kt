@@ -1,4 +1,4 @@
-package com.picpay.desafio.android.utils
+package com.picpay.desafio.android.presentation.utils
 
 import android.view.View
 

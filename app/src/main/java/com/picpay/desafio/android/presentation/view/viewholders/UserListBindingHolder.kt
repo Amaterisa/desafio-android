@@ -1,4 +1,4 @@
-package com.picpay.desafio.android.view.viewholders
+package com.picpay.desafio.android.presentation.view.viewholders
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

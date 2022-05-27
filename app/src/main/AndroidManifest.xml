@@ -15,7 +15,7 @@
         android:name=".PicpayApplication"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".view.MainActivity"
+        <activity android:name="com.picpay.desafio.android.presentation.view.MainActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true">
             <intent-filter>

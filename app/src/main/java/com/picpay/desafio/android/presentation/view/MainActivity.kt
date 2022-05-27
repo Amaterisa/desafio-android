@@ -1,18 +1,15 @@
-package com.picpay.desafio.android.view
+package com.picpay.desafio.android.presentation.view
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.picpay.desafio.android.R
 import com.picpay.desafio.android.databinding.ActivityMainBinding
-import com.picpay.desafio.android.utils.ViewExtensions.toVisibility
-import com.picpay.desafio.android.view.adapter.UserListAdapter
-import com.picpay.desafio.android.viewmodel.UserRequestStatus
-import com.picpay.desafio.android.viewmodel.UserViewModel
+import com.picpay.desafio.android.presentation.utils.ViewExtensions.toVisibility
+import com.picpay.desafio.android.presentation.view.adapter.UserListAdapter
+import com.picpay.desafio.android.presentation.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
