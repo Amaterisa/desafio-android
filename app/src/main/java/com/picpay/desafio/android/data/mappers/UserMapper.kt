@@ -1,7 +1,7 @@
 package com.picpay.desafio.android.data.mappers
 
-import com.picpay.desafio.android.data.local.UserEntity
-import com.picpay.desafio.android.data.remote.UserResponse
+import com.picpay.desafio.android.data.source.local.entity.UserEntity
+import com.picpay.desafio.android.data.source.remote.UserResponse
 import com.picpay.desafio.android.domain.model.User
 
 class UserMapper {

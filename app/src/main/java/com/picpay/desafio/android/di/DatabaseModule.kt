@@ -2,8 +2,8 @@ package com.picpay.desafio.android.di
 
 import android.content.Context
 import androidx.room.Room
-import com.picpay.desafio.android.data.local.UserDao
-import com.picpay.desafio.android.data.local.UserDatabase
+import com.picpay.desafio.android.data.source.local.dao.UserDao
+import com.picpay.desafio.android.data.source.local.UserDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

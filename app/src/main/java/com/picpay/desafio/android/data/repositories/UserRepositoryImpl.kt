@@ -1,8 +1,8 @@
 package com.picpay.desafio.android.data.repositories
 
-import com.picpay.desafio.android.data.local.UserDao
+import com.picpay.desafio.android.data.source.local.dao.UserDao
 import com.picpay.desafio.android.data.mappers.UserMapper
-import com.picpay.desafio.android.data.remote.UserApiService
+import com.picpay.desafio.android.data.source.remote.UserApiService
 import com.picpay.desafio.android.domain.common.Result
 import com.picpay.desafio.android.domain.model.User
 import com.picpay.desafio.android.domain.model.UserListState
@@ -22,9 +22,9 @@ class UserRepositoryImpl @Inject constructor(
         val result = getUsersRemote()
         if (result is Result.Success) {
             insertUsers(result.data)
-            emit(UserListState(userMapper.toUserFromEntity(userDao.getAll()), isLoading = false))
+            emit(UserListState(userMapper.toUserFromEntity(userDao.getAll()), isOffline = false))
         } else if (result is Result.Error) {
-            emit(UserListState(error = result.exception, isLoading = false))
+            emit(UserListState(error = result.exception, isOffline = false))
         }
     }
 

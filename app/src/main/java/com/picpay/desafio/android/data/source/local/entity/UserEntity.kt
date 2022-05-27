@@ -1,4 +1,4 @@
-package com.picpay.desafio.android.data.local
+package com.picpay.desafio.android.data.source.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

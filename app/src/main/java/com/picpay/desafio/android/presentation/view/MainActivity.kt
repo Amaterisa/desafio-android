@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     private fun setObservers() {
         userViewModel.userResult.observe(this) { userListState ->
             userListState.users?.let { userAdapter.updateUsers(it) }
-            binding.progressBar.visibility = userListState.isLoading.toVisibility()
+            binding.progressBar.visibility = userListState.isOffline.toVisibility()
             userListState.error?.let { showErrorToast() }
         }
     }
