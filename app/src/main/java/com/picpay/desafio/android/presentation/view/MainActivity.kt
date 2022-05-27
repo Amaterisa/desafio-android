@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.picpay.desafio.android.R
 import com.picpay.desafio.android.databinding.ActivityMainBinding
-import com.picpay.desafio.android.presentation.utils.ViewExtensions.toVisibility
 import com.picpay.desafio.android.presentation.view.adapter.UserListAdapter
 import com.picpay.desafio.android.presentation.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     private fun setObservers() {
         userViewModel.userResult.observe(this) { userListState ->
             userListState.users?.let { userAdapter.updateUsers(it) }
-            binding.progressBar.visibility = userListState.isOffline.toVisibility()
+            binding.progressBar.isVisible = userListState.isOffline
             userListState.error?.let { showErrorToast() }
         }
     }
