@@ -1,7 +1,7 @@
 package com.picpay.desafio.android.data.repositories
 
-import com.picpay.desafio.android.data.source.local.dao.UserDao
 import com.picpay.desafio.android.data.mappers.UserMapper
+import com.picpay.desafio.android.data.source.local.dao.UserDao
 import com.picpay.desafio.android.data.source.remote.UserApiService
 import com.picpay.desafio.android.domain.common.Result
 import com.picpay.desafio.android.domain.model.User
@@ -18,15 +18,19 @@ class UserRepositoryImpl @Inject constructor(
     private val userMapper: UserMapper
 ): UserRepository {
     override fun getUsers() = flow {
-        emit(UserListState(userMapper.toUserFromEntity(userDao.getAll())))
+        emit(UserListState(getUsersLocal()))
         val result = getUsersRemote()
         if (result is Result.Success) {
+            userDao.deleteAll()
             insertUsers(result.data)
-            emit(UserListState(userMapper.toUserFromEntity(userDao.getAll()), isOffline = false))
+            emit(UserListState(getUsersLocal(), isOffline = false))
         } else if (result is Result.Error) {
             emit(UserListState(error = result.exception, isOffline = false))
         }
     }
+
+    override suspend fun getUsersLocal() =
+        userMapper.toUserFromEntity(userDao.getAll())
 
     override suspend fun insertUsers(users: List<User>) {
         userDao.insertAll(userMapper.toEntityFromUser(users))
@@ -36,11 +40,7 @@ class UserRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             try {
                 val response = userApiService.getUsers()
-                if (response.isSuccessful) {
-                    return@withContext Result.Success(userMapper.toUserFromResponse(response.body()!!))
-                } else {
-                    return@withContext Result.Error(Exception(response.message()))
-                }
+                return@withContext Result.Success(userMapper.toUserFromResponse(response))
             } catch (e: Exception) {
                 return@withContext Result.Error(e)
             }
