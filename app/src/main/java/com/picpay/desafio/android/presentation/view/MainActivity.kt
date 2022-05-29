@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
             userListState.users?.let { userAdapter.updateUsers(it) }
             binding.progressBar.isVisible = userListState.isOffline
             userListState.error?.let { showErrorToast() }
+            binding.recyclerView.isVisible = !(userListState.users?.isEmpty() == true && userListState.error != null)
         }
     }
 
