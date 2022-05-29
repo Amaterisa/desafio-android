@@ -11,7 +11,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class GetUsersUseCaseTest {
-
     private val repository = mockk<UserRepository>()
     private val useCase by lazy { GetUsersUseCase(repository) }
 

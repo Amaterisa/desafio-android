@@ -15,7 +15,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class UserRepositoryImplTest {
+class UserRepositoryTest {
     private val api = mockk<UserApiService>()
     private val dao = FakeUserDao()
     private val mapper = UserMapper()

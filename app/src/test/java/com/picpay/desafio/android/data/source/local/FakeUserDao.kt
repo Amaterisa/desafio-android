@@ -5,6 +5,7 @@ import com.picpay.desafio.android.data.source.local.entity.UserEntity
 
 class FakeUserDao: UserDao {
     private val userList = mutableListOf<UserEntity>()
+
     override suspend fun getAll(): List<UserEntity> {
         return userList
     }
