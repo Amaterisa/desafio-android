@@ -7,10 +7,4 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     fun getUsers(): Flow<UserListState>
-
-    suspend fun getUsersLocal(): List<User>
-
-    suspend fun insertUsers(users: List<User>)
-
-    suspend fun getUsersRemote(): Result<List<User>>
 }

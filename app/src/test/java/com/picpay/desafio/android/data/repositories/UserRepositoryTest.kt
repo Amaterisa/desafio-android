@@ -66,7 +66,7 @@ class UserRepositoryTest {
 
         repository.getUsers().toList()
         val expected = mapper.getUserFromResponse(userResponseAlternative)
-        val actual = repository.getUsersLocal()
+        val actual = mapper.getUserFromEntity(dao.getAll())
         assertEquals(expected, actual)
     }
 }
