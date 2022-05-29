@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "MainActivity"
     }
+
     private val userViewModel: UserViewModel by viewModels()
     private val userAdapter: UserListAdapter by lazy { UserListAdapter() }
     private lateinit var binding: ActivityMainBinding
@@ -44,7 +45,8 @@ class MainActivity : AppCompatActivity() {
             userListState.users?.let { userAdapter.updateUsers(it) }
             binding.progressBar.isVisible = userListState.isOffline
             userListState.error?.let { showErrorToast() }
-            binding.recyclerView.isVisible = !(userListState.users?.isEmpty() == true && userListState.error != null)
+            binding.recyclerView.isVisible =
+                userListState.users?.isEmpty() != true || userListState.isOffline
         }
     }
 
