@@ -24,8 +24,8 @@ class UserRepositoryTest {
     private val userResponse = listOf(UserResponse(img = "img", name = "name", id = 1, username = "username"))
     private val userResponseAlternative = listOf(UserResponse(img = "img", name = "name", id = 2, username = "username"))
 
-    private val user = mapper.toUserFromResponse(userResponse)
-    private val userEntity = mapper.toEntityFromUser(user)
+    private val user = mapper.getUserFromResponse(userResponse)
+    private val userEntity = mapper.getEntityFromUser(user)
     private val userListStateLocal = UserListState(user, isOffline = true)
     private val userListStateRemote = UserListState(user, isOffline = false)
 
@@ -65,7 +65,7 @@ class UserRepositoryTest {
         coEvery { api.getUsers() } returns userResponseAlternative
 
         repository.getUsers().toList()
-        val expected = mapper.toUserFromResponse(userResponseAlternative)
+        val expected = mapper.getUserFromResponse(userResponseAlternative)
         val actual = repository.getUsersLocal()
         assertEquals(expected, actual)
     }

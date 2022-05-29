@@ -30,17 +30,17 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUsersLocal() =
-        userMapper.toUserFromEntity(userDao.getAll())
+        userMapper.getUserFromEntity(userDao.getAll())
 
     override suspend fun insertUsers(users: List<User>) {
-        userDao.insertAll(userMapper.toEntityFromUser(users))
+        userDao.insertAll(userMapper.getEntityFromUser(users))
     }
 
     override suspend fun getUsersRemote(): Result<List<User>> =
         withContext(Dispatchers.IO) {
             try {
                 val response = userApiService.getUsers()
-                return@withContext Result.Success(userMapper.toUserFromResponse(response))
+                return@withContext Result.Success(userMapper.getUserFromResponse(response))
             } catch (e: Exception) {
                 return@withContext Result.Error(e)
             }

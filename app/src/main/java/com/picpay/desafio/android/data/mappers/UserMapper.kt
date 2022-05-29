@@ -5,7 +5,7 @@ import com.picpay.desafio.android.data.source.remote.UserResponse
 import com.picpay.desafio.android.domain.model.User
 
 class UserMapper {
-    fun toUserFromEntity(usersEntity: List<UserEntity>): List<User> {
+    fun getUserFromEntity(usersEntity: List<UserEntity>): List<User> {
         return usersEntity.map {
             User(
                 id = it.id,
@@ -16,7 +16,7 @@ class UserMapper {
         }
     }
 
-    fun toEntityFromUser(users: List<User>): List<UserEntity> {
+    fun getEntityFromUser(users: List<User>): List<UserEntity> {
         return users.map {
             UserEntity(
                 id = it.id,
@@ -27,7 +27,7 @@ class UserMapper {
         }
     }
 
-    fun toUserFromResponse(usersResponse: List<UserResponse>): List<User> {
+    fun getUserFromResponse(usersResponse: List<UserResponse>): List<User> {
         return usersResponse.map {
             User(
                 id = it.id,
