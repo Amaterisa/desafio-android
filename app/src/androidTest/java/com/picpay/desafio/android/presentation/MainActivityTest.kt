@@ -71,15 +71,29 @@ class MainActivityTest {
             onView(withId(R.id.recyclerView))
                 .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
 
+            //check name on the first element
             RecyclerViewMatchers.checkRecyclerViewItem(
                 R.id.recyclerView,
                 0,
                 withText("Eduardo Santos")
             )
+            //check username on the first element
+            RecyclerViewMatchers.checkRecyclerViewItem(
+                R.id.recyclerView,
+                0,
+                withText("@eduardo.santos")
+            )
+            //check name on position 1 of the recyclerview
             RecyclerViewMatchers.checkRecyclerViewItem(
                 R.id.recyclerView,
                 1,
                 withText("Joao Guilherme")
+            )
+            //check username on position 1 of the recyclerview
+            RecyclerViewMatchers.checkRecyclerViewItem(
+                R.id.recyclerView,
+                1,
+                withText("@joao.guilherme")
             )
         }
     }
